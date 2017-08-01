@@ -4,4 +4,4 @@
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.flesh.furballs.MainActivity" />
+    tools:context="com.flesh.furballs.activities.MainActivity" />

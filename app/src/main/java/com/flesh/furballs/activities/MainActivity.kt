@@ -1,7 +1,9 @@
-package com.flesh.furballs
+package com.flesh.furballs.activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.flesh.furballs.fragments.ImagesFragment
+import com.flesh.furballs.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,17 +18,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadFragment() {
         supportFragmentManager.beginTransaction().replace(R.id.content, currentFragment).commit()
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-        super.onRestoreInstanceState(savedInstanceState)
-        currentFragment = supportFragmentManager.getFragment(savedInstanceState, CURRENT_FRAG) as ImagesFragment
-    }
-
-
-    override fun onSaveInstanceState(outState: Bundle?) {
-        supportFragmentManager.putFragment(outState, CURRENT_FRAG, currentFragment)
-        super.onSaveInstanceState(outState)
     }
 
 }

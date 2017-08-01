@@ -1,8 +1,9 @@
-package com.flesh.furballs
+package com.flesh.furballs.web
 
 import android.content.Context
+import com.flesh.furballs.R
+import com.flesh.furballs.models.WebResponse
 import io.reactivex.Observable
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory

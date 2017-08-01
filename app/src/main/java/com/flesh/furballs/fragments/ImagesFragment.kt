@@ -1,4 +1,4 @@
-package com.flesh.furballs
+package com.flesh.furballs.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +7,11 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.flesh.furballs.*
+import com.flesh.furballs.activities.ImageActivity
+import com.flesh.furballs.adapters.ImagesAdapter
+import com.flesh.furballs.models.WebResponse
+import com.flesh.furballs.web.WebService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_images.*
@@ -14,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_images.*
 /**
  * Created by aaronfleshner on 7/31/17.
  */
-class ImagesFragment : Fragment() ,ImagesAdapter.OnCellClickListener{
+class ImagesFragment : Fragment() , ImagesAdapter.OnCellClickListener {
 
 
 
@@ -65,13 +70,13 @@ class ImagesFragment : Fragment() ,ImagesAdapter.OnCellClickListener{
 
 
     override fun onCellClicked(url: String) {
-        var intent = Intent(context,ImageActivity::class.java)
+        var intent = Intent(context, ImageActivity::class.java)
         intent.putExtra(IMAGE_URL,url)
         startActivity(intent)
     }
 
     fun updateList(response: WebResponse?){
-        image_list.adapter = ImagesAdapter(response?.message?: listOf(),this)
+        image_list.adapter = ImagesAdapter(response?.message ?: listOf(), this)
         image_list.layoutManager = GridLayoutManager(context, resources.getInteger(R.integer.col_span))
         image_list.setHasFixedSize(true)
     }

@@ -1,4 +1,4 @@
-package com.flesh.furballs
+package com.flesh.furballs.views
 
 import android.content.Context
 import android.util.AttributeSet
@@ -6,6 +6,7 @@ import android.widget.ImageView
 
 /**
  * Created by aaronfleshner on 7/31/17.
+ * Simple Class to create a square ImageView
  */
 class SquareImageView : ImageView {
 

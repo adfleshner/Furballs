@@ -1,13 +1,16 @@
-package com.flesh.furballs
+package com.flesh.furballs.adapters
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import com.flesh.furballs.R
+import com.flesh.furballs.inflate
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_cell_square_image.view.*
 
 /**
  * Created by aaronfleshner on 7/31/17.
+ * Images Adapter for RecyclerView to display
  */
 class ImagesAdapter(var items:List<String>,var mClickController: OnCellClickListener? = null) : RecyclerView.Adapter<ImagesAdapter.ImageViewHolder>() {
 
