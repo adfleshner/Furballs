@@ -2,6 +2,7 @@
 Furballs is a Simple application that uses the DogAPI(https://dog.ceo/dog-api/) to pull down a list of dog images.
 
 Furballs is Written in Kotlin.
+
 Currently very bare bones.
 
 - Uses retrofit2 and Picasso for Networking and ImageLoading.
