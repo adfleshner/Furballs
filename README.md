@@ -4,11 +4,15 @@ Furballs is a Simple application that uses the DogAPI(https://dog.ceo/dog-api/) 
 Furballs is Written in Kotlin.
 Currently very bare bones.
 
-Uses retrofit2 and Picasso for Networking and ImageLoading.
-Uses retrofit2Gson Convertor for Json Serialization and Deserialization.
-Uses Chris Barnes PhotoView for the ImageActivity Image (for easy gestures)
+- Uses retrofit2 and Picasso for Networking and ImageLoading.
+- Uses retrofit2Gson Convertor for Json Serialization and Deserialization.
+- Uses Chris Barnes PhotoView for the ImageActivity Image (for easy gestures).
 
+### Libraries in project
 ```gradle
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation 'com.android.support:appcompat-v7:26.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.github.chrisbanes:PhotoView:2.1.3'
     implementation 'com.android.support:recyclerview-v7:26.0.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
@@ -17,3 +21,15 @@ Uses Chris Barnes PhotoView for the ImageActivity Image (for easy gestures)
     implementation "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
     implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
 ```
+
+### CHECKLIST
+- [x] Start Project
+- [x] Make Simple Web call to DogAPI
+- [x] Display Images in a list
+- [x] Show full image when user clicks on image in list
+- [ ] DAGGER
+- [ ] MVP
+- [ ] Persistance
+- [ ] Different Breeds
+- [ ] fancy animations
+- [ ] Lots More
