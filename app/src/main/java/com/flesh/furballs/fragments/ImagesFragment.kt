@@ -24,13 +24,14 @@ import javax.inject.Inject
  */
 class ImagesFragment : Fragment() , ImagesAdapter.OnCellClickListener {
 
-    var response : WebResponse? = null
+    private val DATA_KEY: String = "${ImagesFragment::class.java.canonicalName} Data Key"
+
+    var data: WebResponse? = null
 
     @Inject lateinit var restApi : WebRestAPI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         FurBallsApp.appComponent.inject(this)
     }
 
@@ -51,23 +52,32 @@ class ImagesFragment : Fragment() , ImagesAdapter.OnCellClickListener {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //check if data is in the saved instance.
+        data = savedInstanceState?.getParcelable(DATA_KEY)
         getImages()
     }
 
 
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putParcelable(DATA_KEY, data)
+    }
+
+
     fun getImages(){
-        if(response==null){
+        if(data ==null){
             restApi.getDogImages("greyhound","italian").observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe({
                         result ->
-                        response = result
-                        updateList(response)
+                        data = result
+                        updateList(data)
                     },{error ->
                         error.printStackTrace()
                     })
         }else{
-            updateList(response!!)
+            updateList(data!!)
         }
     }
 
