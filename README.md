@@ -38,3 +38,5 @@ Currently very bare bones.
 - [ ] Different Breeds
 - [ ] fancy animations
 - [ ] Lots More
+
+<img src="https://github.com/adfleshner/Furballs/blob/master/art/ImagesFragment.png?raw=true" width="216" height="394" />
