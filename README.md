@@ -21,6 +21,9 @@ Currently very bare bones.
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
     implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
+    implementation 'com.google.dagger:dagger:2.11'
+    kapt 'com.google.dagger:dagger-compiler:2.11'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
 ```
 
 ### CHECKLIST
@@ -28,7 +31,7 @@ Currently very bare bones.
 - [x] Make Simple Web call to DogAPI
 - [x] Display Images in a list
 - [x] Show full image when user clicks on image in list
-- [ ] DAGGER
+- [x] DAGGER 2
 - [ ] MVP
 - [ ] Persistance
 - [ ] Different Breeds

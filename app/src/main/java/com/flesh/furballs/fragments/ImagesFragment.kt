@@ -11,24 +11,27 @@ import com.flesh.furballs.*
 import com.flesh.furballs.activities.ImageActivity
 import com.flesh.furballs.adapters.ImagesAdapter
 import com.flesh.furballs.models.WebResponse
-import com.flesh.furballs.web.WebService
+import com.flesh.furballs.web.WebRestAPI
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_images.*
+import javax.inject.Inject
 
 /**
+ * Images fragment for the Furballs Application.
+ * Currently makes a call to the api and displays a grid of the selected Breed
  * Created by aaronfleshner on 7/31/17.
  */
 class ImagesFragment : Fragment() , ImagesAdapter.OnCellClickListener {
 
-
-
-    lateinit var service: WebService
     var response : WebResponse? = null
+
+    @Inject lateinit var restApi : WebRestAPI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        service = WebService(context)
+
+        FurBallsApp.appComponent.inject(this)
     }
 
     companion object {
@@ -54,7 +57,7 @@ class ImagesFragment : Fragment() , ImagesAdapter.OnCellClickListener {
 
     fun getImages(){
         if(response==null){
-            service.getImages("greyhound").observeOn(AndroidSchedulers.mainThread())
+            restApi.getDogImages("greyhound","italian").observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe({
                         result ->
@@ -70,7 +73,7 @@ class ImagesFragment : Fragment() , ImagesAdapter.OnCellClickListener {
 
 
     override fun onCellClicked(url: String) {
-        var intent = Intent(context, ImageActivity::class.java)
+        val intent = Intent(context, ImageActivity::class.java)
         intent.putExtra(IMAGE_URL,url)
         startActivity(intent)
     }

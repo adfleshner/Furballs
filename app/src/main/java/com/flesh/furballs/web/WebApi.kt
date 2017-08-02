@@ -15,4 +15,7 @@ interface WebApi {
     @GET("breed/{breed}/images")
     fun getDogImages(@Path("breed")breed : String) : Observable<WebResponse>
 
+    @GET("breed/{breed}/{sbreed}/images")
+    fun getDogImages(@Path("breed")breed : String,@Path("sbreed")sbreed : String) : Observable<WebResponse>
+
 }
