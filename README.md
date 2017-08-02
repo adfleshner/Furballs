@@ -32,8 +32,9 @@ Currently very bare bones.
 - [x] Display Images in a list
 - [x] Show full image when user clicks on image in list
 - [x] DAGGER 2
+- [x] Handle Config Changes
 - [ ] MVP
-- [ ] Persistance
+- [ ] Persistence
 - [ ] Different Breeds
 - [ ] fancy animations
 - [ ] Lots More
