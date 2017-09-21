@@ -33,8 +33,9 @@ Currently very bare bones.
 - [x] Show full image when user clicks on image in list
 - [x] DAGGER 2
 - [x] Handle Config Changes
-- [ ] MVP
+- [x] MVP
 - [ ] Persistence
 - [ ] Different Breeds
 - [ ] fancy animations
+- [x] write some tests. I have 2 so far :) 
 - [ ] Lots More

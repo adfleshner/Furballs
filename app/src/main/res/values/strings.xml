@@ -2,5 +2,9 @@
     <string name="app_name">Furballs</string>
 
     <string name="base_url">https://dog.ceo/api/</string>
+    <string name="error">Error</string>
+    <string name="retry">Retry</string>
+    <string name="cancel">Cancel</string>
+    <string name="empty">Empty</string>
 
 </resources>
