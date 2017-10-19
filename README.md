@@ -39,3 +39,5 @@ Currently very bare bones.
 - [ ] fancy animations
 - [x] write some tests. I have 2 so far :) 
 - [ ] Lots More
+
+<img src="https://github.com/adfleshner/Furballs/blob/master/art/ImagesFragment.png?raw=true" width="216" height="394" />
