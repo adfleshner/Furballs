@@ -6,5 +6,6 @@
     <string name="retry">Retry</string>
     <string name="cancel">Cancel</string>
     <string name="empty">Empty</string>
+    <string name="search">Search</string>
 
 </resources>

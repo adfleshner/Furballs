@@ -34,8 +34,7 @@ Currently very bare bones.
 - [x] DAGGER 2
 - [x] Handle Config Changes
 - [x] MVP
-- [ ] Persistence
-- [ ] Different Breeds
+- [x] Different Breeds
 - [ ] fancy animations
 - [x] write some tests. I have 2 so far :) 
 - [ ] Lots More

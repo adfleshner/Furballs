@@ -7,11 +7,25 @@ import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by aaronfleshner on 8/7/17.
+ * The presenter for the Images fragment
  */
-class ImagesPresenter(var provider : WebRestAPI , private var view : ImagesView) {
+class ImagesPresenter(var provider: WebRestAPI, private var view: ImagesView) {
+
+    fun loadBreeds() {
+        provider.getAllDogBreeds()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    result ->
+                    view.loadBreeds(result)
+                }, {
+                    error ->
+
+                })
+    }
 
 
-    fun loadImages(breed : String = ""){
+    fun loadImages(breed: String = "") {
         view.showLoading()
         view.hideEmpty()
         provider.getDogImages(breed)
@@ -22,7 +36,7 @@ class ImagesPresenter(var provider : WebRestAPI , private var view : ImagesView)
                     view.hideEmpty()
                     view.hideLoading()
                     view.dataLoaded(result)
-                },{error ->
+                }, { error ->
                     view.hideEmpty()
                     view.hideLoading()
                     view.ErrorLoaded(error)
@@ -30,9 +44,9 @@ class ImagesPresenter(var provider : WebRestAPI , private var view : ImagesView)
     }
 
 
-    fun loadImages(breed : String = "",subBreed: String = ""){
+    fun loadImages(breed: String = "", subBreed: String = "") {
         view.showLoading()
-        provider.getDogImages(breed,subBreed)
+        provider.getDogImages(breed, subBreed)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
@@ -40,15 +54,12 @@ class ImagesPresenter(var provider : WebRestAPI , private var view : ImagesView)
                     view.hideEmpty()
                     view.hideLoading()
                     view.dataLoaded(result)
-                },{error ->
+                }, { error ->
                     view.hideEmpty()
                     view.hideLoading()
                     view.ErrorLoaded(error)
                 })
     }
-
-
-
 
 
 }

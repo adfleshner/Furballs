@@ -10,6 +10,11 @@ import javax.inject.Inject
  */
 class WebRestAPI @Inject constructor(private var webApi: WebApi):WebApi {
 
+
+    override fun getAllDogBreeds(): Observable<WebResponse>{
+        return webApi.getAllDogBreeds()
+    }
+
     override fun getDogImages(breed: String): Observable<WebResponse> {
         return webApi.getDogImages(breed)
     }

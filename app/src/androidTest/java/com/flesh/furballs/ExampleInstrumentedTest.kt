@@ -1,11 +1,8 @@
 package com.flesh.furballs
 
 import android.support.test.InstrumentationRegistry
-import android.support.test.espresso.web.sugar.Web
 import android.support.test.runner.AndroidJUnit4
 import com.flesh.furballs.models.WebResponse
-import com.flesh.furballs.mvp.presenters.ImagesPresenter
-import com.flesh.furballs.mvp.views.BaseView
 import com.flesh.furballs.web.WebApi
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -67,9 +64,27 @@ class ExampleInstrumentedTest {
                 })
     }
 
+    @Test
+    fun loadAllOfTheBreeds(){
+        testApi.getAllDogBreeds()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    result ->
+                    assertEquals(result.status,"success")
+                    assertEquals(result.message.size,4)
+                },{error ->
+
+                })
+    }
+
 
 
     class MockApiForTests : WebApi{
+        override fun getAllDogBreeds(): Observable<WebResponse> {
+            return Observable.just(WebResponse("success", listOf("All","sorts","of","breeds")))
+        }
+
         override fun getDogImages(breed: String): Observable<WebResponse> {
             return Observable.just(WebResponse(breed, listOf("image $breed 1","image $breed 2")))
         }
