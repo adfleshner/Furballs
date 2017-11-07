@@ -77,7 +77,4 @@ interface CatApi {
 
     @GET(value = "stats/getOverview")
     fun getCatOverview(@Query("api_key") apikey:String)
-
-    @GET(value = "images/get?format=xml&results_per_page=20")
-    fun shouldWork(): Observable<CatResponse>
 }

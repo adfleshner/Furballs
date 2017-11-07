@@ -22,6 +22,10 @@ import javax.inject.Singleton
 @Module
 class RetrofitModule(private var context: Context) {
 
+    //Creates logging interceptor for when its just not working write.
+//    val interceptor = HttpLoggingInterceptor()
+//    interceptor.level = HttpLoggingInterceptor.Level.BODY
+//    val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
 
     @Singleton
     @Provides

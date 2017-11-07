@@ -8,9 +8,6 @@ import io.reactivex.Observable
  * Created by aaronfleshner on 11/5/17.
  */
 open class CatProvider(var webApi: CatApi) : CatApi {
-    override fun shouldWork(): Observable<CatResponse>  {
-        return webApi.shouldWork()
-    }
 
     //CAT API
     override fun getCatApiGet(apikey: String, format: String, count: Int, image_id: String?,
