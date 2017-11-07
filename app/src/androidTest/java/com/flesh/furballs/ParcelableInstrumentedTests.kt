@@ -4,7 +4,7 @@ import android.support.test.runner.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import android.os.Parcel
-import com.flesh.furballs.models.WebResponse
+import com.flesh.furballs.models.dog.DogImageResponse
 import org.junit.Assert.*
 
 /**
@@ -15,11 +15,11 @@ class ParcelableInstrumentedTests {
 
     @Test
     fun testWebResponseParcelable() {
-        val response = WebResponse("", listOf())
+        val response = DogImageResponse("", listOf())
         val parcel = Parcel.obtain()
         response.writeToParcel(parcel, 0)
         parcel.setDataPosition(0)
-        val parceledResponse = WebResponse.CREATOR.createFromParcel(parcel)
+        val parceledResponse = DogImageResponse.CREATOR.createFromParcel(parcel)
         assertEquals(response,parceledResponse)
     }
 

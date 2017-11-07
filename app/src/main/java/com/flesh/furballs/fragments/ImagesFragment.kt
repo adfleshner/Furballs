@@ -9,20 +9,24 @@ import android.support.v7.widget.GridLayoutManager
 import com.flesh.furballs.*
 import com.flesh.furballs.activities.ImageActivity
 import com.flesh.furballs.adapters.ImagesAdapter
-import com.flesh.furballs.models.WebResponse
 import com.flesh.furballs.mvp.presenters.ImagesPresenter
 import com.flesh.furballs.mvp.views.ImagesView
-import com.flesh.furballs.web.WebRestAPI
 import kotlinx.android.synthetic.main.fragment_images.*
 import javax.inject.Inject
 import android.app.SearchManager
 import android.provider.BaseColumns
 import android.database.MatrixCursor
-import android.support.v4.view.MenuItemCompat
 import android.support.v7.widget.SearchView
 import android.view.*
 import android.text.TextUtils
+import android.util.Log
 import com.flesh.furballs.adapters.SearchViewCursorAdapter
+import com.flesh.furballs.models.AnimalType
+import com.flesh.furballs.models.shared.FurballImage
+import com.flesh.furballs.models.shared.IWebImageResponse
+import com.flesh.furballs.models.shared.IWebQueryResponse
+import com.flesh.furballs.web.BaseWebProvider
+import java.util.*
 
 
 /**
@@ -31,51 +35,75 @@ import com.flesh.furballs.adapters.SearchViewCursorAdapter
  * Created by aaronfleshner on 7/31/17.
  */
 class ImagesFragment : Fragment() , ImagesAdapter.OnCellClickListener , ImagesView,SwipeRefreshLayout.OnRefreshListener {
-    val TAG: String = "[${ImagesFragment::class.java.simpleName}]"
 
-    override fun loadBreeds(result: WebResponse) {
+    override fun hideSearch() {
+        setHasOptionsMenu(false)
+    }
+
+
+    override fun loadQueries(result: IWebQueryResponse) {
         allBreedsResponse = result
         loadBreedsAutoComplete()
     }
 
-    private val breed = "greyhound"
-    private val subbreed = "italian"
+    private var breed = "greyhound"
+    private val DEFAULT_DOG = "greyhound"
+    private val DEFAULT_CAT = "cat"
+    private val category : String? = null
 
     private val DATA_KEY: String = "${ImagesFragment::class.java.canonicalName} Data Key"
 
-    var data: WebResponse? = null
-    var allBreedsResponse : WebResponse? = null
+    var data: IWebImageResponse? = null
+    var allBreedsResponse : IWebQueryResponse? = null
     var searchItem : MenuItem? = null
     var searchView : SearchView? = null
+    lateinit var type : AnimalType
 
 
-    @Inject lateinit var restApi : WebRestAPI
+
+    @Inject lateinit var restApi : BaseWebProvider
     lateinit var imagesPresenter : ImagesPresenter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        var animal = arguments?.getString(TYPE)?:""
+        when(animal){
+            "Dog" -> {
+                type = AnimalType.DOG
+                breed = DEFAULT_DOG
+            }
+            "Cat" -> {
+                type = AnimalType.CAT
+                breed = DEFAULT_CAT
+            }
+            else ->throw Throwable("$animal not supported")
+        }
         FurBallsApp.appComponent.inject(this)
         imagesPresenter = ImagesPresenter(restApi,this)
     }
 
     companion object {
-        val IMAGE_URL: String = "${ImagesFragment::class.java.simpleName} image url key"
-        fun newInstance(): ImagesFragment {
+        @JvmStatic val TAG: String = "[${ImagesFragment::class.java.canonicalName}]"
+        @JvmStatic val IMAGE_URL: String = "${ImagesFragment::class.java.simpleName} image url key"
+        @JvmStatic val TYPE:String = "$TAG Type"
+
+        @JvmStatic fun newInstance(type:String): ImagesFragment {
             val frag = ImagesFragment()
             val args = Bundle()
+            args.putString(TYPE,type)
             frag.arguments = args
             return frag
         }
     }
 
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return container?.inflate(R.layout.fragment_images)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //check if data is in the saved instance.
         data = savedInstanceState?.getParcelable(DATA_KEY)
@@ -86,15 +114,20 @@ class ImagesFragment : Fragment() , ImagesAdapter.OnCellClickListener , ImagesVi
 
 
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState?.putParcelable(DATA_KEY, data)
+        outState.putParcelable(DATA_KEY, data)
+    }
+
+    override fun loadImages(result: IWebImageResponse) {
+        data = result
+        updateList()
     }
 
 
     fun getImages(){
         if(data ==null){
-            loadNewBreed(breed)
+            loadNewBreed(breed,category,type)
         }else{
             updateList()
         }
@@ -102,7 +135,7 @@ class ImagesFragment : Fragment() , ImagesAdapter.OnCellClickListener , ImagesVi
 
     fun getAllBreeds(){
         if(allBreedsResponse == null){
-            imagesPresenter.loadBreeds()
+            imagesPresenter.loadFilters(type)
         }else{
             loadBreedsAutoComplete()
         }
@@ -114,28 +147,32 @@ class ImagesFragment : Fragment() , ImagesAdapter.OnCellClickListener , ImagesVi
             val sAutocompleteColNames = arrayOf(BaseColumns._ID, SearchManager.SUGGEST_COLUMN_TEXT_1)
             val cursor = MatrixCursor(sAutocompleteColNames)
             // parse your search terms into the MatrixCursor
-            for (i in 0..allBreedsResponse!!.message.size-1) {
-                val breed = allBreedsResponse!!.message[i]
-                if(TextUtils.isEmpty(query)||breed.contains(query)) {
-                    val row = arrayOf(i, breed)
-                    cursor.addRow(row)
+            if(allBreedsResponse!=null) {
+                for (i in 0 until allBreedsResponse!!.queries.size) {
+                    val breed = allBreedsResponse!!.queries[i]
+                    if (TextUtils.isEmpty(query) || breed.contains(query)) {
+                        val row = arrayOf(i, breed)
+                        cursor.addRow(row)
+                    }
                 }
+                val cursorAdapter = SearchViewCursorAdapter(context!!, cursor)
+                cursorAdapter.setItemClickListener(object : SearchViewCursorAdapter.OnItemClickListener {
+                    override fun onItemClick(title: String) {
+                        loadNewBreed(title,title,type)
+                    }
+                })
+                searchView?.suggestionsAdapter = cursorAdapter
+                searchView?.suggestionsAdapter!!.changeCursor(cursor)
+            }else{
+                Log.e(TAG,"Categories is null")
             }
-            val cursorAdapter = SearchViewCursorAdapter(context,cursor)
-            cursorAdapter.setItemClickListener(object:SearchViewCursorAdapter.OnItemClickListener{
-                override fun onItemClick(title: String) {
-                    loadNewBreed(title)
-                }
-            })
-            searchView?.suggestionsAdapter =cursorAdapter
-            searchView?.suggestionsAdapter!!.changeCursor(cursor)
 
         }).run()
     }
 
-    private fun loadNewBreed(breed: String) {
-        //Load neew breed
-        imagesPresenter.loadImages(breed)
+    private fun loadNewBreed(breed: String,category:String?,type: AnimalType) {
+        //Load new breed
+        imagesPresenter.loadImages(breed,category,type)
         try {
             //Clear query
             searchView?.setQuery("", false)
@@ -144,11 +181,11 @@ class ImagesFragment : Fragment() , ImagesAdapter.OnCellClickListener , ImagesVi
             //Collapse the search widget
             searchItem?.collapseActionView()
             //Set Action bar title
-            activity.title = breed
+            activity!!.title = breed
         }catch (e:NullPointerException){
-
+            Log.e(TAG,"loadNewBreed: ${e.localizedMessage}")
         }catch (e2:RuntimeException){
-
+            Log.e(TAG,"loadNewBreed: ${e2.localizedMessage}")
         }
     }
 
@@ -170,15 +207,15 @@ class ImagesFragment : Fragment() , ImagesAdapter.OnCellClickListener , ImagesVi
         })
     }
 
-    override fun onCellClicked(url: String) {
+    override fun onCellClicked(image: FurballImage) {
         val intent = Intent(context, ImageActivity::class.java)
-        intent.putExtra(IMAGE_URL,url)
+        intent.putExtra(IMAGE_URL,image)
         startActivity(intent)
     }
 
     fun updateList(){
-        if(data?.message?.size?:0 != 0 ) {
-            image_list.adapter = ImagesAdapter(this.data?.message ?: listOf(), this)
+        if(data?.response?.size?:0 != 0 ) {
+            image_list.adapter = ImagesAdapter(this.data?.response?.shuffle() ?: listOf(), this)
             image_list.layoutManager = GridLayoutManager(context, resources.getInteger(R.integer.col_span))
             image_list.setHasFixedSize(true)
         }else{
@@ -187,7 +224,7 @@ class ImagesFragment : Fragment() , ImagesAdapter.OnCellClickListener , ImagesVi
     }
 
     override fun onRefresh() {
-        imagesPresenter.loadImages(breed)
+        imagesPresenter.loadImages(breed,category,type)
     }
 
     override fun showLoading() {
@@ -213,10 +250,10 @@ class ImagesFragment : Fragment() , ImagesAdapter.OnCellClickListener , ImagesVi
     }
 
     private fun showError(error: Throwable) {
-        error.printStackTrace()
+        Log.e(TAG,"showError: ${error.stackTrace}")
         AlertDialog.Builder(context).setMessage(error.message).setTitle(R.string.error)
                 .setPositiveButton(R.string.retry, { _, _ ->
-                    imagesPresenter.loadImages(breed)
+                    imagesPresenter.loadImages(breed,category,type)
                 })
                 .setNegativeButton(R.string.cancel, { _, _ ->
                     showEmpty()
@@ -224,13 +261,24 @@ class ImagesFragment : Fragment() , ImagesAdapter.OnCellClickListener , ImagesVi
                 .show()
     }
 
-    override fun dataLoaded(data: WebResponse) {
+    override fun dataLoaded(data: IWebImageResponse) {
         //Update data
+        Log.e("MAIN","Result = ${data.response}")
+
         this.data = data
         //Show in list.
         updateList()
     }
 
+}
 
+/**
+ * Returns a randomized list.
+ */
+fun <T> Iterable<T>.shuffle(seed: Long? = null): List<T> {
+    val list = this.toMutableList()
+    val random = if (seed != null) Random(seed) else Random()
+    Collections.shuffle(list, random)
+    return list
 }
 

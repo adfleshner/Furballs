@@ -3,6 +3,7 @@ package com.flesh.furballs
 import android.app.Application
 import com.flesh.furballs.di.AppComponent
 import com.flesh.furballs.di.DaggerAppComponent
+import com.flesh.furballs.di.modules.AppModule
 import com.flesh.furballs.di.modules.RestApiModule
 import com.flesh.furballs.di.modules.RetrofitModule
 
@@ -22,6 +23,7 @@ class FurBallsApp : Application() {
         appComponent = DaggerAppComponent.builder()
                 .restApiModule(RestApiModule())
                 .retrofitModule(RetrofitModule(this))
+                .appModule(AppModule(this))
                 .build()
     }
 }
