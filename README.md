@@ -49,4 +49,5 @@ Currently (not as) bare bones (as before).
 - [ ] Lots More
 
 
-<img src="https://github.com/adfleshner/Furballs/blob/master/art/ImagesFragment.png?raw=true" width="216" height="394" />
+<img src="https://github.com/adfleshner/Furballs/blob/master/art/dogImagesFragment.png?raw=true" width="216" height="394" />
+<img src="https://github.com/adfleshner/Furballs/blob/master/art/catImagesFragment.png?raw=true" width="216" height="394" />
