@@ -1,5 +1,5 @@
 # Furballs
-Furballs is a Simple application that uses the DogAPI(https://dog.ceo/dog-api/) and CatAPI(http://thecatapi.com/api/) to pull down a list of cat and dog images.
+Furballs is a Simple application that uses the DogAPI(https://dog.ceo/dog-api/) and CatAPI(http://thecatapi.com/) to pull down a list of cat and dog images.
 
 Furballs is Written in Kotlin.
 
