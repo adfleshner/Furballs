@@ -16,11 +16,14 @@ import javax.inject.Inject
 import android.app.SearchManager
 import android.provider.BaseColumns
 import android.database.MatrixCursor
+import android.graphics.drawable.Drawable
 import android.support.v7.widget.SearchView
 import android.view.*
 import android.text.TextUtils
 import android.util.Log
+import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.flesh.furballs.adapters.SearchViewCursorAdapter
+import com.flesh.furballs.glide.GlideRequest
 import com.flesh.furballs.models.AnimalType
 import com.flesh.furballs.models.shared.FurballImage
 import com.flesh.furballs.models.shared.IWebImageResponse
@@ -45,10 +48,10 @@ class ImagesFragment : Fragment() , ImagesAdapter.OnCellClickListener , ImagesVi
         allBreedsResponse = result
         loadBreedsAutoComplete()
     }
-
-    private var breed = "greyhound"
     private val DEFAULT_DOG = "greyhound"
-    private val DEFAULT_CAT = "cat"
+    private val DEFAULT_CAT = "Cat"
+
+    private var breed = DEFAULT_DOG
     private val category : String? = null
 
     private val DATA_KEY: String = "${ImagesFragment::class.java.canonicalName} Data Key"
@@ -62,8 +65,10 @@ class ImagesFragment : Fragment() , ImagesAdapter.OnCellClickListener , ImagesVi
 
 
     @Inject lateinit var restApi : BaseWebProvider
-    lateinit var imagesPresenter : ImagesPresenter
+    @Inject lateinit var glide: GlideRequest<Drawable>
+    @Inject lateinit var gifGlide: GlideRequest<GifDrawable>
 
+    lateinit var imagesPresenter : ImagesPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -213,9 +218,11 @@ class ImagesFragment : Fragment() , ImagesAdapter.OnCellClickListener , ImagesVi
         startActivity(intent)
     }
 
+
+
     fun updateList(){
         if(data?.response?.size?:0 != 0 ) {
-            image_list.adapter = ImagesAdapter(this.data?.response?.shuffle() ?: listOf(), this)
+            image_list.adapter = ImagesAdapter(this.data?.response?.shuffle() ?: listOf(),glide,gifGlide, this)
             image_list.layoutManager = GridLayoutManager(context, resources.getInteger(R.integer.col_span))
             image_list.setHasFixedSize(true)
         }else{

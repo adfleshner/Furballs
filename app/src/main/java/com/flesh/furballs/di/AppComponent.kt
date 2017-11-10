@@ -1,9 +1,8 @@
 package com.flesh.furballs.di
 
-import android.app.Activity
-import android.support.v4.app.Fragment
-import com.flesh.furballs.activities.MainActivity
+import com.flesh.furballs.activities.ImageActivity
 import com.flesh.furballs.di.modules.AppModule
+import com.flesh.furballs.di.modules.GlideModule
 import com.flesh.furballs.di.modules.RestApiModule
 import com.flesh.furballs.di.modules.RetrofitModule
 import com.flesh.furballs.fragments.ImagesFragment
@@ -18,9 +17,11 @@ import javax.inject.Singleton
 @Component(modules = arrayOf(
         AppModule::class,
         RestApiModule::class,
-        RetrofitModule::class))
+        RetrofitModule::class,
+        GlideModule::class))
 interface AppComponent {
 
         fun inject(imagesFragment: ImagesFragment)
+        fun inject(imageActivity: ImageActivity)
 
 }

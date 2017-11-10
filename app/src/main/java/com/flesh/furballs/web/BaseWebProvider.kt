@@ -17,7 +17,7 @@ class BaseWebProvider @Inject constructor(var context: Context, var dogApi: DogA
 
     override fun getCategories(type: AnimalType): Observable<IWebQueryResponse>{
         return when(type){
-            AnimalType.DOG-> { dogApi.getAllDogBreeds() as Observable<IWebQueryResponse> }
+            AnimalType.DOG-> {dogApi.getAllDogBreeds() as Observable<IWebQueryResponse> }
             AnimalType.CAT-> { catApi.getCatCategories() as Observable<IWebQueryResponse> }
         }
     }

@@ -1,18 +1,24 @@
 package com.flesh.furballs.adapters
 
+import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.flesh.furballs.*
 import com.flesh.furballs.glide.GlideApp
+import com.flesh.furballs.glide.GlideRequest
 import com.flesh.furballs.models.shared.FurballImage
 import kotlinx.android.synthetic.main.list_cell_square_image.view.*
+import javax.inject.Inject
 
 /**
  * Created by aaronfleshner on 7/31/17.
  * Images Adapter for RecyclerView to display
  */
-class ImagesAdapter(var items: List<FurballImage>, var mClickController: OnCellClickListener? = null) : RecyclerView.Adapter<ImagesAdapter.ImageViewHolder>() {
+class ImagesAdapter(var items: List<FurballImage>, var glide: GlideRequest<Drawable>? = null, var gifGlide: GlideRequest<GifDrawable>? = null, var mClickController: OnCellClickListener? = null) : RecyclerView.Adapter<ImagesAdapter.ImageViewHolder>() {
+
 
     interface OnCellClickListener {
         fun onCellClicked(image: FurballImage)
@@ -34,37 +40,29 @@ class ImagesAdapter(var items: List<FurballImage>, var mClickController: OnCellC
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ImageViewHolder {
-        return ImageViewHolder(parent?.inflate(R.layout.list_cell_square_image)!!)
+        return ImageViewHolder(parent?.inflate(R.layout.list_cell_square_image)!!, glide, gifGlide)
     }
 
 
-    class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
+    class ImageViewHolder(itemView: View,
+                          private var glide: GlideRequest<Drawable>?,
+                          private var gifGlide: GlideRequest<GifDrawable>?) : RecyclerView.ViewHolder(itemView) {
         fun bindView(imageUrl: String) {
-            val placeholder = R.mipmap.ic_launcher_foreground
-            val error = android.R.drawable.ic_menu_close_clear_cancel
-            val image = itemView.square_image
-            if (imageUrl.endsWith(".gif")) {
-                GlideApp
-                        .with(itemView.context)
-                        .asGif()
-                        .load(imageUrl)
-                        .centerCrop()
-                        .placeholder(placeholder)
-                        .error(error)
-                        .into(image)
+            imageUrl.loadInto(itemView.square_image)
+        }
+
+        private fun String.loadInto(square_image: ImageView?) {
+            val gif_ext = ".gif"
+            if (endsWith(gif_ext)) {
+                gifGlide?.load(this)?.into(square_image)
             } else {
-                GlideApp
-                        .with(itemView.context)
-                        .load(imageUrl)
-                        .centerCrop()
-                        .placeholder(placeholder)
-                        .error(error)
-                        .into(image)
+                glide?.load(this)?.into(square_image)
             }
         }
+
     }
 
-
 }
+
+
 

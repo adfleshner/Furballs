@@ -4,6 +4,7 @@ import android.app.Application
 import com.flesh.furballs.di.AppComponent
 import com.flesh.furballs.di.DaggerAppComponent
 import com.flesh.furballs.di.modules.AppModule
+import com.flesh.furballs.di.modules.GlideModule
 import com.flesh.furballs.di.modules.RestApiModule
 import com.flesh.furballs.di.modules.RetrofitModule
 
@@ -22,8 +23,9 @@ class FurBallsApp : Application() {
         super.onCreate()
         appComponent = DaggerAppComponent.builder()
                 .restApiModule(RestApiModule())
-                .retrofitModule(RetrofitModule(this))
+                .retrofitModule(RetrofitModule(this.applicationContext))
                 .appModule(AppModule(this))
+                .glideModule(GlideModule(this.applicationContext))
                 .build()
     }
 }

@@ -11,5 +11,6 @@
     <string name="search">Search</string>
     <string name="dog_image_content_desc">WOOF</string>
     <string name="cat_image_content_desc">MEOW</string>
+    <string name="im_not_loaded">Image didn\'t load</string>
 
 </resources>

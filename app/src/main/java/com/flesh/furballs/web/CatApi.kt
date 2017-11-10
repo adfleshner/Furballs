@@ -73,7 +73,7 @@ interface CatApi {
     )
 
     @GET(value= "categories/list")
-    fun getCatCategories(): Observable<IWebQueryResponse>
+    fun getCatCategories(): Observable<CatResponse>
 
     @GET(value = "stats/getOverview")
     fun getCatOverview(@Query("api_key") apikey:String)

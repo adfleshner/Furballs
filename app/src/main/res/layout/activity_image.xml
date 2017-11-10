@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     android:background="@android:color/black"
     tools:context="com.flesh.furballs.activities.ImageActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/imagetoolbar"
+        android:layout_width="match_parent"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:layout_height="?attr/actionBarSize"/>
 
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/imageView"
@@ -14,7 +20,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="?attr/actionBarSize"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

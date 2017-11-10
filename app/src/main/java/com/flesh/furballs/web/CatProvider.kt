@@ -38,7 +38,7 @@ open class CatProvider(var webApi: CatApi) : CatApi {
         return webApi.reportThatCat(apikey, image_id, sub_id, reason)
     }
 
-    override fun getCatCategories(): Observable<IWebQueryResponse> {
+    override fun getCatCategories(): Observable<CatResponse> {
         return webApi.getCatCategories()
     }
 

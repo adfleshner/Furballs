@@ -11,12 +11,11 @@ import com.google.gson.annotations.SerializedName
  * Simple data class for a web data from the dog api
  */
 data class DogImageResponse(@SerializedName("status")
-                       override var status : String,
+                       override val status : String,
                             @SerializedName("message")
                        private var message: List<String>) : IWebImageResponse {
-    override var response: List<FurballImage>
+    override val response: List<FurballImage>
         get() = message.map { FurballImage(it, it) }
-        set(value) {}
 
     constructor(parcel: Parcel) : this(
             parcel.readString(),
