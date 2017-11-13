@@ -2,7 +2,7 @@ package com.flesh.furballs.di.modules
 
 import android.content.Context
 import com.flesh.furballs.R
-import com.flesh.furballs.web.parsing.WebResponseInterfaceIstanceCreator
+import com.flesh.furballs.web.parsing.WebResponseInterfaceInstanceCreator
 import com.flesh.furballs.web.parsing.XMLGsonConverterFactory
 import com.flesh.furballs.models.dog.DogImageResponse
 import com.google.gson.GsonBuilder
@@ -31,14 +31,11 @@ class RetrofitModule(private var context: Context) {
     @Provides
     @Named(value = "dogRetrofit")
     fun providesDogClient(): Retrofit {
-        val gson = GsonBuilder().registerTypeAdapter(DogImageResponse::class.java, WebResponseInterfaceIstanceCreator(context)).create()
-
         return Retrofit.Builder()
                 .baseUrl(context.getString(R.string.base_dog_url))
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
-
     }
 
 

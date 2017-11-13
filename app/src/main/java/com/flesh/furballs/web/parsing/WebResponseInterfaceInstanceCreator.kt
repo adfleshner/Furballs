@@ -9,7 +9,7 @@ import java.lang.reflect.Type
 /**
  * Created by aaronfleshner on 11/5/17.
  */
-class WebResponseInterfaceIstanceCreator(var context: Context) : InstanceCreator<IWebImageResponse>{
+class WebResponseInterfaceInstanceCreator(var context: Context) : InstanceCreator<IWebImageResponse>{
     override fun createInstance(type: Type?): IWebImageResponse {
         var result : IWebImageResponse?
         result = DogImageResponse("", listOf())

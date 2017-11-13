@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.flesh.furballs.fragments.ImagesFragment
 import com.flesh.furballs.R
+import com.flesh.furballs.models.AnimalType
 import kotlinx.android.synthetic.main.activity_images.*
 
 class ImagesActivity : AppCompatActivity(){
@@ -19,7 +20,7 @@ class ImagesActivity : AppCompatActivity(){
         if (savedInstanceState != null) {
             currentFragment = supportFragmentManager.getFragment(savedInstanceState, CURRENT_FRAG) as ImagesFragment
         } else {
-            val type = intent.getStringExtra(MainActivity.TYPE)
+            val type = intent.getSerializableExtra(MainActivity.TYPE) as AnimalType
             currentFragment = ImagesFragment.newInstance(type)
         }
         loadFragments()

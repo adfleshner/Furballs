@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.flesh.furballs.R
+import com.flesh.furballs.models.AnimalType
 import com.flesh.furballs.toast
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -18,11 +19,11 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
         val intent = Intent(this@MainActivity, ImagesActivity::class.java)
         when (p0?.id) {
             R.id.btn_dog -> {
-                intent.putExtra(TYPE,"Dog")
+                intent.putExtra(TYPE,AnimalType.DOG)
                 startActivity(intent)
             }
             R.id.btn_cat ->{
-                intent.putExtra(TYPE,"Cat")
+                intent.putExtra(TYPE,AnimalType.CAT)
                 startActivity(intent)
             }
             else -> toast("Choose Either Cat or Dog")

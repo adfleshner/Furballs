@@ -12,5 +12,8 @@
     <string name="dog_image_content_desc">WOOF</string>
     <string name="cat_image_content_desc">MEOW</string>
     <string name="im_not_loaded">Image didn\'t load</string>
+    <string name="title_activity_tabbed_furball">TabbedFurballActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
 </resources>
