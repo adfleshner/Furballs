@@ -12,22 +12,36 @@ Currently (not as) bare bones (as before).
 
 ### Libraries in project
 ```gradle
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:26.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.github.chrisbanes:PhotoView:2.1.3'
-    implementation 'com.android.support:recyclerview-v7:26.0.0'
-    implementation 'com.github.bumptech.glide:glide:4.3.1'
-    kapt 'com.github.bumptech.glide:compiler:4.3.1' 
-    implementation 'com.github.smart-fun:XmlToJson:1.4.1'
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
-    implementation "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
-    implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
-    implementation 'com.google.dagger:dagger:2.11'
-    kapt 'com.google.dagger:dagger-compiler:2.11'
-    provided 'org.glassfish:javax.annotation:10.0-b28'
-    
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+        //AndroidX Libs
+        implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+        implementation 'androidx.appcompat:appcompat:1.1.0'
+        implementation 'androidx.recyclerview:recyclerview:1.1.0'
+        implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+        implementation 'com.google.android.material:material:1.1.0'
+        testImplementation 'junit:junit:4.13'
+        androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+        androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+        //Retrofit
+        implementation 'com.squareup.retrofit2:retrofit:2.7.1'
+        implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
+        implementation 'com.squareup.retrofit2:adapter-rxjava2:2.7.1'
+        //For xml to json conversion
+        implementation 'com.github.smart-fun:XmlToJson:1.4.5'
+        //OkHttp
+        implementation 'com.squareup.okhttp3:okhttp:4.4.0'
+        implementation 'com.squareup.okio:okio:2.4.3'
+        implementation 'com.squareup.okhttp3:logging-interceptor:4.4.0'
+        //ImageLoading
+        implementation 'com.github.bumptech.glide:glide:4.11.0'
+        kapt 'com.github.bumptech.glide:compiler:4.11.0'
+        //Rxandroid
+        implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
+        //Photo View
+        implementation 'com.github.chrisbanes:PhotoView:2.1.3'
+        //Dagger 2
+        implementation 'com.google.dagger:dagger:2.26'
+        kapt 'com.google.dagger:dagger-compiler:2.26'
 ```
 
 ### CHECKLIST
@@ -36,7 +50,7 @@ Currently (not as) bare bones (as before).
 - [x] Display Images in a list
 - [x] Show full image when user clicks on image in list
 - [ ] Show image details
-- [ ] Share and save image
+- [x] Share and save image
 - [ ] favorite image list??? maybe.
 - [x] DAGGER 2
 - [x] Handle Config Changes
