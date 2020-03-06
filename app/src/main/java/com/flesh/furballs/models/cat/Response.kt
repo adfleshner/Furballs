@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * Created by aaronfleshner on 11/6/17.
  */
-data class Response(@SerializedName("data")var data:CatData) : Parcelable {
+data class Response(@SerializedName("data")var data:CatData?) : Parcelable {
     constructor(parcel: Parcel) : this(parcel.readParcelable<CatData>(CatData::class.java.classLoader))
 
 

@@ -13,8 +13,8 @@ data class DogQueryResponse(@SerializedName("status")
                             @SerializedName("message")
                             override var queries: List<String>) : IWebQueryResponse {
     constructor(parcel: Parcel) : this(
-            parcel.readString(),
-            parcel.createStringArrayList()) {
+            parcel.readString()?:"",
+            parcel.createStringArrayList()?: arrayListOf()) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

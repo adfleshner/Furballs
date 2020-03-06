@@ -1,7 +1,7 @@
 package com.flesh.furballs.adapters
 
 import android.graphics.drawable.Drawable
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +22,11 @@ import javax.inject.Inject
  * Created by aaronfleshner on 7/31/17.
  * Images Adapter for RecyclerView to display
  */
-class ImagesAdapter(private var items: ArrayList<FurballImage>, var glide: GlideRequest<Drawable>? = null, var gifGlide: GlideRequest<GifDrawable>? = null, var mClickController: OnCellClickListener? = null) : RecyclerView.Adapter<ImagesAdapter.ImageViewHolder>() {
+class ImagesAdapter(private var items: ArrayList<FurballImage>,
+                    var glide: GlideRequest<Drawable>? = null,
+                    var gifGlide: GlideRequest<GifDrawable>? = null,
+                    var mClickController: OnCellClickListener? = null) :
+        RecyclerView.Adapter<ImagesAdapter.ImageViewHolder>() {
 
 
     interface OnCellClickListener {
@@ -40,14 +44,14 @@ class ImagesAdapter(private var items: ArrayList<FurballImage>, var glide: Glide
         return items.size
     }
 
-    override fun onBindViewHolder(holder: ImageViewHolder?, position: Int) {
-        holder?.bindView(imageUrl = items[position].url)
-        holder?.itemView?.setOnClickListener {
+    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
+        holder.bindView(imageUrl = items[position].url)
+        holder.itemView.setOnClickListener {
             mClickController?.onCellClicked(items[position])
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ImageViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         return ImageViewHolder(items,this,parent?.inflate(R.layout.list_cell_square_image)!!, glide, gifGlide)
     }
 
@@ -65,7 +69,7 @@ class ImagesAdapter(private var items: ArrayList<FurballImage>, var glide: Glide
 
         private val TAG= "[${ImageViewHolder::class.java}]"
 
-        private fun String.loadInto(square_image: ImageView?) {
+        private fun String.loadInto(square_image: ImageView) {
             val gif_ext = ".gif"
             if (endsWith(gif_ext)) {
                 gifGlide?.listener(removeGifIfFailed)?.load(this)?.into(square_image)

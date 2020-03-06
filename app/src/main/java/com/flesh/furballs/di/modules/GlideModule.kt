@@ -9,7 +9,11 @@ import com.flesh.furballs.glide.GlideApp
 import com.flesh.furballs.glide.GlideRequest
 import dagger.Module
 import dagger.Provides
+import javax.inject.Named
+import javax.inject.Qualifier
 import javax.inject.Singleton
+
+
 
 /**
  * Created by aaronfleshner on 11/9/17.
@@ -22,7 +26,7 @@ class GlideModule(private val context: Context){
 
 
     @Provides
-    @Singleton
+    @Named("gif")
     fun providesGifGlide():GlideRequest<GifDrawable>{
         return GlideApp
                 .with(context)
@@ -34,7 +38,7 @@ class GlideModule(private val context: Context){
 
 
     @Provides
-    @Singleton
+    @Named("pic")
     fun providesGlide():GlideRequest<Drawable>{
         return GlideApp
                 .with(context)

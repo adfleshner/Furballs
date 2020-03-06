@@ -9,9 +9,9 @@ import com.google.gson.annotations.SerializedName
  */
 data class CatImage(@SerializedName("id")var id:String,@SerializedName("url")var  url:String,@SerializedName("source_url") var source_url:String) : Parcelable {
     constructor(parcel: Parcel) : this(
-            parcel.readString(),
-            parcel.readString(),
-            parcel.readString()) {
+            parcel.readString()?:"",
+            parcel.readString()?:"",
+            parcel.readString()?:"") {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

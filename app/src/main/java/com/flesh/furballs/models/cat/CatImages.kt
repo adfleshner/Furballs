@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * Created by aaronfleshner on 11/6/17.
  */
-data class CatImages (@SerializedName("image")var image:List<CatImage>) : Parcelable {
+data class CatImages (@SerializedName("image")var image:List<CatImage>?) : Parcelable {
     constructor(parcel: Parcel) : this(parcel.createTypedArrayList(CatImage))
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

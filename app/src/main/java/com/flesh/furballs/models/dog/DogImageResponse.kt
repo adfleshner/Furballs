@@ -18,8 +18,8 @@ data class DogImageResponse(@SerializedName("status")
         get() = message.map { FurballImage(it, it) }
 
     constructor(parcel: Parcel) : this(
-            parcel.readString(),
-            parcel.createStringArrayList()) {
+            parcel.readString()?:"",
+            parcel.createStringArrayList()?: arrayListOf()) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

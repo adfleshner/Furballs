@@ -6,7 +6,7 @@ import android.os.Parcelable
 /**
  * Created by aaronfleshner on 11/10/17.
  */
-data class CatCategories(var category: List<CatCategory>) : Parcelable {
+data class CatCategories(var category: List<CatCategory>?) : Parcelable {
     constructor(parcel: Parcel) : this(parcel.createTypedArrayList(CatCategory))
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

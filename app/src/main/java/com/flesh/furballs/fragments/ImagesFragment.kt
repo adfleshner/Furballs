@@ -3,9 +3,8 @@ package com.flesh.furballs.fragments
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.GridLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import com.flesh.furballs.*
 import com.flesh.furballs.activities.ImageActivity
 import com.flesh.furballs.adapters.ImagesAdapter
@@ -17,11 +16,11 @@ import android.app.SearchManager
 import android.provider.BaseColumns
 import android.database.MatrixCursor
 import android.graphics.drawable.Drawable
-import android.support.v4.app.ActivityCompat.invalidateOptionsMenu
-import android.support.v7.widget.SearchView
+import androidx.appcompat.widget.SearchView
 import android.view.*
 import android.text.TextUtils
 import android.util.Log
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.flesh.furballs.adapters.SearchViewCursorAdapter
 import com.flesh.furballs.glide.GlideRequest
@@ -31,6 +30,7 @@ import com.flesh.furballs.models.shared.IWebImageResponse
 import com.flesh.furballs.models.shared.IWebQueryResponse
 import com.flesh.furballs.web.BaseWebProvider
 import java.util.*
+import javax.inject.Named
 
 
 /**
@@ -68,9 +68,12 @@ class ImagesFragment : Fragment(), ImagesAdapter.OnCellClickListener, ImagesView
     lateinit var cursor: MatrixCursor
 
 
-    @Inject lateinit var restApi: BaseWebProvider
-    @Inject lateinit var glide: GlideRequest<Drawable>
-    @Inject lateinit var gifGlide: GlideRequest<GifDrawable>
+    @field:[Inject Named("api")]
+    lateinit var restApi: BaseWebProvider
+    @field:[Inject Named("pic")]
+    lateinit var glide: GlideRequest<Drawable>
+    @field:[Inject Named("gif")]
+    lateinit var gifGlide: GlideRequest<GifDrawable>
 
     lateinit var imagesPresenter: ImagesPresenter
 
@@ -203,10 +206,10 @@ class ImagesFragment : Fragment(), ImagesAdapter.OnCellClickListener, ImagesView
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.search_menu, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        searchItem = menu!!.findItem(R.id.action_search)
+        inflater.inflate(R.menu.search_menu, menu)
+        searchItem = menu.findItem(R.id.action_search)
         searchView = searchItem?.actionView as SearchView
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String?): Boolean {
@@ -221,7 +224,7 @@ class ImagesFragment : Fragment(), ImagesAdapter.OnCellClickListener, ImagesView
         })
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
+    override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         updateSearchMenu()
     }

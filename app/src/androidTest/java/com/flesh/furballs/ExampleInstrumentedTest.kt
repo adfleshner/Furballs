@@ -1,7 +1,7 @@
 package com.flesh.furballs
 
-import android.support.test.InstrumentationRegistry
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.flesh.furballs.models.AnimalType
 import com.flesh.furballs.models.dog.DogImageResponse
 import com.flesh.furballs.models.shared.IWebImageResponse

@@ -17,6 +17,7 @@ class RestApiModule {
 
     @Provides
     @Singleton
+    @Named("api")
     fun provideBaseWebRestApi(context: Context, dogApi: DogApi, catApi: CatApi): BaseWebProvider = BaseWebProvider(context = context, dogApi = dogApi,catApi = catApi)
 
     @Provides

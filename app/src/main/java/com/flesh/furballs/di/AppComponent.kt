@@ -1,6 +1,9 @@
 package com.flesh.furballs.di
 
+import android.app.Activity
+import androidx.fragment.app.Fragment
 import com.flesh.furballs.activities.ImageActivity
+import com.flesh.furballs.activities.ImagesActivity
 import com.flesh.furballs.di.modules.AppModule
 import com.flesh.furballs.di.modules.GlideModule
 import com.flesh.furballs.di.modules.RestApiModule

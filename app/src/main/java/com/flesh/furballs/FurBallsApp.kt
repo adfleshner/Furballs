@@ -21,7 +21,8 @@ class FurBallsApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        appComponent = DaggerAppComponent.builder()
+        appComponent = DaggerAppComponent
+                .builder()
                 .restApiModule(RestApiModule())
                 .retrofitModule(RetrofitModule(this.applicationContext))
                 .appModule(AppModule(this))
